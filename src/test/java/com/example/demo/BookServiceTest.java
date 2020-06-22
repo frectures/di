@@ -9,6 +9,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 // @SpringBootTest
 public class BookServiceTest {
@@ -20,63 +22,9 @@ public class BookServiceTest {
 				new Book("Moby Dick", "Herman Melville", 1851),
 				new Book("Much Ado About Nothing", "William Shakespeare", 1599));
 
-		BookRepository bookRepositoryMock = new BookRepository() {
-
-			@Override
-			public <S extends Book> S save(S entity) {
-				return null;
-			}
-
-			@Override
-			public <S extends Book> Iterable<S> saveAll(Iterable<S> entities) {
-				return null;
-			}
-
-			@Override
-			public Optional<Book> findById(Long aLong) {
-				return Optional.empty();
-			}
-
-			@Override
-			public boolean existsById(Long aLong) {
-				return false;
-			}
-
-			@Override
-			public Iterable<Book> findAll() {
-				return BOOKS;
-			}
-
-			@Override
-			public Iterable<Book> findAllById(Iterable<Long> longs) {
-				return null;
-			}
-
-			@Override
-			public long count() {
-				return 0;
-			}
-
-			@Override
-			public void deleteById(Long aLong) {
-
-			}
-
-			@Override
-			public void delete(Book entity) {
-
-			}
-
-			@Override
-			public void deleteAll(Iterable<? extends Book> entities) {
-
-			}
-
-			@Override
-			public void deleteAll() {
-
-			}
-		};
+		BookRepository bookRepositoryMock = mock(BookRepository.class);
+		System.out.println(bookRepositoryMock.getClass());
+		when(bookRepositoryMock.findAll()).thenReturn(BOOKS);
 		bookService = new BookService(bookRepositoryMock);
 	}
 
