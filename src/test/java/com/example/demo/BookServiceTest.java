@@ -5,36 +5,83 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@SpringBootTest
+// @SpringBootTest
 public class BookServiceTest {
-	@Autowired
+	// @Autowired
 	private BookService bookService;
 
-	@Test
-	public void addOneBook() {
-		bookService.addBook(new Book("Moby Dick", "Herman Melville", 1851));
+	public BookServiceTest() {
+		List<Book> BOOKS = List.of(new Book("A Midsummer Night's Dream", "William Shakespeare", 1596),
+				new Book("Moby Dick", "Herman Melville", 1851),
+				new Book("Much Ado About Nothing", "William Shakespeare", 1599));
 
-		assertEquals(1, bookService.numberOfBooks());
-	}
+		BookRepository bookRepositoryMock = new BookRepository() {
 
-	@Test
-	public void addTwoBooks() {
-		bookService.addBook(new Book("A Midsummer Night's Dream", "William Shakespeare", 1596));
-		bookService.addBook(new Book("Much Ado About Nothing", "William Shakespeare", 1599));
+			@Override
+			public <S extends Book> S save(S entity) {
+				return null;
+			}
 
-		assertEquals(2, bookService.numberOfBooks());
+			@Override
+			public <S extends Book> Iterable<S> saveAll(Iterable<S> entities) {
+				return null;
+			}
+
+			@Override
+			public Optional<Book> findById(Long aLong) {
+				return Optional.empty();
+			}
+
+			@Override
+			public boolean existsById(Long aLong) {
+				return false;
+			}
+
+			@Override
+			public Iterable<Book> findAll() {
+				return BOOKS;
+			}
+
+			@Override
+			public Iterable<Book> findAllById(Iterable<Long> longs) {
+				return null;
+			}
+
+			@Override
+			public long count() {
+				return 0;
+			}
+
+			@Override
+			public void deleteById(Long aLong) {
+
+			}
+
+			@Override
+			public void delete(Book entity) {
+
+			}
+
+			@Override
+			public void deleteAll(Iterable<? extends Book> entities) {
+
+			}
+
+			@Override
+			public void deleteAll() {
+
+			}
+		};
+		bookService = new BookService(bookRepositoryMock);
 	}
 
 	@Test
 	public void booksWrittenByShakespeare() {
-		bookService.addBook(new Book("A Midsummer Night's Dream", "William Shakespeare", 1596));
-		bookService.addBook(new Book("Moby Dick", "Herman Melville", 1851));
-		bookService.addBook(new Book("Much Ado About Nothing", "William Shakespeare", 1599));
-
 		List<Book> shakespearesBooks = bookService.booksWrittenBy("William Shakespeare");
 
 		assertEquals(List.of("William Shakespeare", "William Shakespeare"), shakespearesBooks.stream()
@@ -42,3 +89,4 @@ public class BookServiceTest {
 				.collect(Collectors.toList()));
 	}
 }
+

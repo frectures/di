@@ -9,8 +9,12 @@ import java.util.stream.StreamSupport;
 
 @Service
 public class BookService {
-    @Autowired
+    // @Autowired
     private BookRepository bookRepository;
+
+    public BookService(BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
+    }
 
     public void addBook(Book book) {
         bookRepository.save(book);
