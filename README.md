@@ -2,6 +2,10 @@
 
 Dependency *Inversion* is a SOLI**D** principle concerned with dependencies between layers.
 
+> **Dependency Inversion Principle:**
+> 1. High level modules should not depend upon low level modules. Both should depend upon abstractions.
+> 2. Abstractions should not depend upon details. Details should depend upon abstractions.
+
 - **S**ingle Responsibility
 - **O**pen-Closed
 - **L**iskov Substitution
@@ -30,7 +34,7 @@ public class BookService {
 
 ![](img/inversion2.svg)
 
-> **Dependency Inversion:** Replace a uses-relationship from layer A to layer B  
+> **Dependency Inversion Refactoring:** Replace a uses-relationship from layer A to layer B  
 > with an implements-relationship from layer B to layer A.
 
 ```java
